@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
@@ -35,10 +36,7 @@ public class Main {
                         System.out.println("Введите идентификатор задачи");
                         manager.deleteTask(scanner.nextInt());
                     }
-                    case 7 -> {
-                    }
                     default -> {
-                        break;
                     }
                 }
             }
@@ -84,30 +82,6 @@ class Task {
         this.status = "NEW";
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     @Override
     public String toString() {
         return "Task{" + "title='" + title + '\'' +
@@ -128,6 +102,30 @@ class Subtask extends Task {
 
 class Epic extends Task {
     HashMap<Integer, Subtask> subtasks;
+
+    void checkStatus() {
+        int score = 0;
+        for (Map.Entry<Integer, Subtask> entry : subtasks.entrySet()) {
+            if (Objects.equals(entry.getValue().status, "NEW")) {
+                score += 0;
+            }
+            if (Objects.equals(entry.getValue().status, "IN PROGRESS")) {
+                score += 1;
+            }
+            if (Objects.equals(entry.getValue().status, "DONE")) {
+                score += 2;
+            }
+        }
+        if (score == 2 * subtasks.size()) {
+            status = "DONE";
+        }
+        if (2 * subtasks.size() < score && score > 0) {
+            status = "IN PROGRESS";
+        }
+        if (score == 0) {
+            status = "NEW";
+        }
+    }
 
     public Epic(String title, String description, int id, String status) {
         super();
