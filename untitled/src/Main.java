@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
         Manager manager = new Manager();
         Scanner scanner = new Scanner(System.in);
         printMainMenu();
@@ -84,9 +85,7 @@ class Task {
 
     @Override
     public String toString() {
-        return "Task{" + "title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", status='" + status + '\'';
+        return "Task{" + "title='" + title + '\'' + ", description='" + description + '\'' + ", status='" + status + '\'';
     }
 
 }
@@ -185,8 +184,10 @@ class Manager {
     }
 
     void UpdateTask(int id, Task newTask) {
-        tasks.put(id, newTask);
-        System.out.println("Обновление задачи с ключом " + taskId + " - успешно");
+        if (tasks.get(id)!=null){
+            tasks.put(id, newTask);
+        }
+       else System.out.println("Задачи с таким идентификатором не существует.");
     }
 
     void deleteTask(int taskId) {
